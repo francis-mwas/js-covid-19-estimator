@@ -31,17 +31,26 @@ const covid19ImpactEstimator = (data) => {
   // region
   const { timeToElapse, reportedCases } = data;
 
-  const curInfected = reportedCases * 10;
-  const infeByRequestedTime = curInfected * 2 ** factor(timeToElapse);
+  const impactCurInfected = reportedCases * 10;
+  const ImpInfeByRequestedTime = impactCurInfected * 2 ** factor(timeToElapse);
+
+  const severeCurInfected = reportedCases * 50;
+  const seInfeByRequestedTime = severeCurInfected * 2 ** factor(timeToElapse);
 
   const impact = {
-    currentlyInfected: curInfected,
-    infectionsByRequestedTime: infeByRequestedTime
+    currentlyInfected: impactCurInfected,
+    infectionsByRequestedTime: ImpInfeByRequestedTime
+  };
+
+  const severeImpact = {
+    currentlyInfected: severeCurInfected,
+    infectionsByRequestedTime: seInfeByRequestedTime
   };
 
   return {
     data,
-    impact
+    impact,
+    severeImpact
   };
 };
 
