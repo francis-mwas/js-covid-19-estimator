@@ -1,5 +1,6 @@
 const covid19ImpactEstimator = (data) => {
   const { reportedCases, totalHospitalBeds, region } = data;
+
   function factor() {
     let toDays = 0;
     if (data.periodType === 'days') {
@@ -26,6 +27,9 @@ const covid19ImpactEstimator = (data) => {
     return toDays;
   }
 
+  const avgDaInInUSD = region.avgDailyIncomeInUSD;
+  const avgDInPltion = region.avgDailyIncomePopulation;
+
   //   impact
   const impactCurInfected = reportedCases * 10;
   const impInfeByReqTime = impactCurInfected * 2 ** factor();
@@ -37,7 +41,7 @@ const covid19ImpactEstimator = (data) => {
   const impCasesForVentilators = Math.trunc(0.02 * impInfeByReqTime);
 
   const impDInFlight = Math.trunc(
-    (impInfeByReqTime * region.avgDInInUSD * region.avgDInPoption) / convert()
+    (impInfeByReqTime * avgDaInInUSD * avgDInPltion) / convert()
   );
 
   //   severe
@@ -50,7 +54,7 @@ const covid19ImpactEstimator = (data) => {
   const seCasesForIcu = 0.05 * seInfeByRequestedTime;
   const seCasesForVentilators = Math.trunc(0.02 * seInfeByRequestedTime);
   const seDInFlight = Math.trunc(
-    (seInfeByRequestedTime * region.avgDInUSD * region.avgDInPptn) / convert()
+    (seInfeByRequestedTime * avgDaInInUSD * avgDInPltion) / convert()
   );
 
   const impact = {
