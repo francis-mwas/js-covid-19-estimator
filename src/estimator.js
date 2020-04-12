@@ -11,6 +11,20 @@ const covid19ImpactEstimator = (data) => {
 
     return Math.trunc(toDays / 3);
   }
+
+  function convert() {
+    let toDays = 0;
+    if (data.periodType === 'days') {
+      toDays = data.timeToElapse;
+    } else if (data.periodType === 'weeks') {
+      toDays = data.timeToElapse * 7;
+    } else if (data.periodType === 'months') {
+      toDays = data.timeToElapse * 30;
+    }
+
+    return toDays;
+  }
+
   const { reportedCases, totalHospitalBeds, region } = data;
 
   //   impact
@@ -24,7 +38,7 @@ const covid19ImpactEstimator = (data) => {
     (impInfeByReqTime
       * region.avgDailyIncomeInUSD
       * region.avgDailyIncomePopulation)
-      / factor()
+      / convert()
   );
 
   //   severe
@@ -38,7 +52,7 @@ const covid19ImpactEstimator = (data) => {
     (seInfeByRequestedTime
       * region.avgDailyIncomeInUSD
       * region.avgDailyIncomePopulation)
-      / factor()
+      / convert()
   );
 
   const impact = {
